@@ -69,8 +69,8 @@ class PersonServiceUnitTest {
 	}
 
 	@Test
-	@DisplayName("Should returns an person according to your id")
-	void givenPerson_shouldReturnOnePersonById() {
+	@DisplayName("Should returns a person according to your id")
+	void givenPerson_shouldReturnsOnePersonById() {
 
 		// GIVEN
 		int id = 3;
@@ -84,13 +84,51 @@ class PersonServiceUnitTest {
 		verify(personRepository, times(1)).findById((long) id);
 		assertEquals(person, res);
 	}
-	/*
-	 * 
-	 * @Test void testSave() { fail("Not yet implemented"); }
-	 * 
-	 * @Test void testDeleteById() { fail("Not yet implemented"); }
-	 * 
-	 * @Test void testUpdate() { fail("Not yet implemented"); }
-	 */
 
+	@Test
+	@DisplayName("Should created a new person")
+	void givenPerson_shouldReturnOnePersonCreated() {
+
+		// GIVEN
+		var pers = new Person((long) 4, "Wick", "John");
+		when(personRepository.saveAndFlush(pers)).thenReturn(pers);
+
+		// WHEN
+		Person result = personService.saveOrFlushPerson(pers);
+
+		// THEN
+		verify(personRepository, times(1)).saveAndFlush(pers);
+		assertEquals(pers, result);
+	}
+
+	@Test
+	@DisplayName("Should delete a person")
+	void gitvenPerson_shouldDeleteOnePerson() {
+
+		// GIVEN
+		int id = 1;
+
+		// WHEN
+		personService.deletePerson((long) 1);
+
+		// THEN
+		verify(personRepository, times(1)).deleteById((long) id);
+	}
+
+	@Test
+	@DisplayName("Should update a person")
+	void givenPerson_shouldReturnOnePersonUpdated() {
+
+		// GIVEN
+		var personne = new Person((long) 1, "Benjamin", "WELLE");
+		when(personRepository.saveAndFlush(personne)).thenReturn(personne);
+
+		// WHEN
+		Person resultat = personService.saveOrFlushPerson(personne);
+
+		// THEN
+		verify(personRepository, times(1)).saveAndFlush(personne);
+		assertEquals(personne, resultat);
+
+	}
 }
