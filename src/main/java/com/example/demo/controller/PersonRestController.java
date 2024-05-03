@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,16 +53,16 @@ public class PersonRestController {
 	}
 
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Person getPerson(@PathVariable Long id) {
-		return personService.getPerson(id);
+	public Optional<Person> getPerson(@PathVariable Long id) {
+		return personService.getPersonById(id);
 	}
 
 	@PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Person updatePerson(@RequestBody Person person, @PathVariable Long id) {
-		Person currentPerson = getPerson(id);
+		Optional<Person> currentPerson = getPerson(id);
 		person.setId(id);
-		person.setFirstName(person.getFirstName() == null ? currentPerson.getFirstName() : person.getFirstName());
-		person.setLastName(person.getLastName() == null ? currentPerson.getLastName() : person.getLastName());
+		person.setFirstName(person.getFirstName() == null ? currentPerson.get().getFirstName() : person.getFirstName());
+		person.setLastName(person.getLastName() == null ? currentPerson.get().getLastName() : person.getLastName());
 		return personService.saveOrFlushPerson(person);
 	}
 

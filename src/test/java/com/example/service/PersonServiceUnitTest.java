@@ -24,8 +24,7 @@ import com.example.demo.main.CoursSpringBootApplication;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 
-@SpringBootTest(classes = {
-		CoursSpringBootApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = CoursSpringBootApplication.class)
 class PersonServiceUnitTest {
 
 	@MockBean
